@@ -1,0 +1,14 @@
+/*
+ Localizable.strings
+ Stargazers
+ 
+ Created by Marco on 02/12/20.
+ Copyright © 2019 Fast-Devs Project. All rights reserved.
+ */
+
+
+
+"owner" = "Owner";
+"repo" = "Repository";
+
+"alert_OKBUTTON" = "OK";
