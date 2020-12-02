@@ -61,14 +61,11 @@ class StargazersListController: UITableViewController, DataManagerDelegate {
     }
     
     
-    //Private functions
+    //MARK:- Private functions
+    
     private func openSearchController() {
         if let viewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "id_storyboard_search") as? SearchViewController {
-            if UIDevice.current.userInterfaceIdiom == .pad {
-                viewController.modalPresentationStyle = .formSheet
-            } else {
-                viewController.modalPresentationStyle = .overFullScreen
-            }
+            viewController.modalPresentationStyle = .overFullScreen
             viewController.dataManager = dataManager
             present(viewController, animated: true, completion: nil)
         }

@@ -36,9 +36,7 @@ class SearchViewController: UIViewController, UITextFieldDelegate {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
-        delay(0.35) {
-            self.owner.becomeFirstResponder()
-        }
+        owner.becomeFirstResponder()
     }
     
     
@@ -64,6 +62,9 @@ class SearchViewController: UIViewController, UITextFieldDelegate {
         owner.placeholder = loc("owner") + "..."
         repository.placeholder = loc("repository") + "..."
     }
+    
+    
+    //MARK:- IBActions
     
     @IBAction func searchStargazers(_ sender: Any){
         guard let usr = owner.text, let repo = repository.text, let dm = dataManager else { return }
