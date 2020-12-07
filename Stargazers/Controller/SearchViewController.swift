@@ -44,7 +44,8 @@ class SearchViewController: UIViewController, UITextFieldDelegate {
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         if textField == owner {
-            owner.becomeFirstResponder()
+            textField.resignFirstResponder()
+            repository.becomeFirstResponder()
         }
         if textField == repository {
             repository.resignFirstResponder()
@@ -68,10 +69,15 @@ class SearchViewController: UIViewController, UITextFieldDelegate {
     
     @IBAction func searchStargazers(_ sender: Any){
         guard let usr = owner.text, let repo = repository.text, let dm = dataManager else { return }
-        if usr.isEmpty || repo.isEmpty {
-            simpleAlert(text: loc("Invalid input"))
+        if usr.isEmpty {
+            simpleAlert(text: loc("validationError_EMPTYOWNER"))
             return
         }
+        if repo.isEmpty {
+            simpleAlert(text: loc("validationError_EMPTYREPONAME"))
+            return
+        }
+        
         dismiss(animated: true) {
             self.searchButton.isHidden = true
             self.searchButton.isUserInteractionEnabled = false

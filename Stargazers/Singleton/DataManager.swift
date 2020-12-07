@@ -32,17 +32,16 @@ class DataManager: NSObject {
         }
         
         if owner.isEmpty {
-            self.delegate?.stargazersDataNotAvailable?(error: "owner is empty")
+            self.delegate?.stargazersDataNotAvailable?(error: loc("validationError_EMPTYOWNER"))
             return
         }
         if repositoryName.isEmpty {
-            self.delegate?.stargazersDataNotAvailable?(error: "repositoryName is empty")
+            self.delegate?.stargazersDataNotAvailable?(error: loc("validationError_EMPTYREPONAME"))
             return
         }
         
-        let urlString = "https://api.github.com/repos/\(replaceHtmlCharset(owner))/\(replaceHtmlCharset(repositoryName))/stargazers?page=\(page)"
-        guard let url = URL(string: urlString) else {
-            self.delegate?.stargazersDataNotAvailable?(error: "Invalid input")
+        guard let url = URL(string: "https://api.github.com/repos/\(replaceHtmlCharset(owner))/\(replaceHtmlCharset(repositoryName))/stargazers?page=\(page)") else {
+            self.delegate?.stargazersDataNotAvailable?(error: String(format: loc("GENERICERROR"), loc("dataManager_ERRORNINVALIDURL")))
             return
         }
         AFManager.request(url, method: .get).responseJSON { response in
@@ -51,7 +50,7 @@ class DataManager: NSObject {
                 return
             }
             guard let ilJson = response.value else {
-                self.delegate?.stargazersDataNotAvailable?(error: "JSON is nil")
+                self.delegate?.stargazersDataNotAvailable?(error: String(format: loc("GENERICERROR"), loc("dataManager_ERRORNILJSON")))
                 return
             }
             
@@ -65,17 +64,27 @@ class DataManager: NSObject {
                 
                 
                 if !username.isEmpty && !avatarUrl.isEmpty {
-                    self.stargazers.append(User(username, UIImage(systemName: "person.crop.circle.fill")!, avatarUrl))
+                    self.stargazers.append(User(username, avatarPlaceholder, avatarUrl))
                 }
             }
             
             
             if self.stargazers.isEmpty {
-                self.delegate?.stargazersDataNotAvailable?(error: "No result found.")
+                self.delegate?.stargazersDataNotAvailable?(error: loc("dataManager_NORESULT"))
             } else {
                 self.delegate?.stargazersDataReady(stargazers: self.stargazers)
             }
         }
+    }
+    
+    
+    //MARK:- Private functions
+    
+    /// Parse string for HTML url call
+    /// - Parameter text: text to parse
+    /// - Returns: parsed text
+    private func replaceHtmlCharset(_ text: String) -> String {
+        return text.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed) ?? text
     }
     
 }

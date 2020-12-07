@@ -8,7 +8,35 @@
 
 
 
+/******************************/
+
 "owner" = "Owner";
 "repo" = "Repository";
 
+
+
+/******************************/
+
+"validationError_EMPTYOWNER" = "The \"Owner\" field cannot be left blank";
+"validationError_EMPTYREPONAME" = "The \"Repository\" field cannot be left blank";
+
+
+
+/******************************/
+
+"dataManager_ERRORNILJSON" = "JSON is nil";
+"dataManager_ERRORNINVALIDURL" = "Invalid url";
+"dataManager_NORESULT" = "No results found, try to enter different search parameters";
+
+
+
+/******************************/
+
+"alert_ERROR" = "Error";
 "alert_OKBUTTON" = "OK";
+
+
+
+/******************************/
+
+"GENERICERROR" = "An internal error has occurred, contact support and report the following error: \n %@";

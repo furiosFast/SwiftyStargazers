@@ -8,7 +8,35 @@
 
 
 
+/******************************/
+
 "owner" = "Owner";
 "repo" = "Repository";
 
+
+
+/******************************/
+
+"validationError_EMPTYOWNER" = "Il campo \"Owner\" non può essere lasciato vuoto";
+"validationError_EMPTYREPONAME" = "Il campo \"Repository\" non può essere lasciato vuoto";
+
+
+
+/******************************/
+
+"dataManager_ERRORNILJSON" = "JSON is nil";
+"dataManager_ERRORNINVALIDURL" = "Invalid url";
+"dataManager_NORESULT" = "Nessun risultato trovato, provare a inserire differenti parametri di ricerca";
+
+
+
+/******************************/
+
+"alert_ERROR" = "Error";
 "alert_OKBUTTON" = "OK";
+
+
+
+/******************************/
+
+"GENERICERROR" = "Si è verificato un errore interno, contattare l'assistenza è comunicare il seguente errore: \n %@";

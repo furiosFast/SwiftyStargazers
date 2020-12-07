@@ -17,9 +17,12 @@ import SwifterSwift
 
 class StargazersTableViewController: UITableViewController, UITableViewDataSourcePrefetching, DataManagerDelegate {
     
+    let ID_CELL_STARGAZERS_TABLE = "id_cell_stargazers_table"
+    let ID_STORYBOARD_SEARCH = "id_storyboard_search"
+    
     let dataManager = DataManager()
+    var isLoadingNewStargazers = true
     var page = 1
-    var isLoading = true
     
     
     override func viewDidLoad() {
@@ -48,30 +51,31 @@ class StargazersTableViewController: UITableViewController, UITableViewDataSourc
     
     func tableView(_ tableView: UITableView, prefetchRowsAt indexPaths: [IndexPath]) {
         indexPaths.forEach {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "id_cell_stargazers_table", for: $0) as! TableCellController
+            let cell = tableView.dequeueReusableCell(withIdentifier: ID_CELL_STARGAZERS_TABLE, for: $0) as! TableCellController
             fetchUserAvatar(cell, $0)
         }
     }
     
     func tableView(_ tableView: UITableView, cancelPrefetchingForRowsAt indexPaths: [IndexPath]) {
         indexPaths.forEach {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "id_cell_stargazers_table", for: $0) as! TableCellController
+            let cell = tableView.dequeueReusableCell(withIdentifier: ID_CELL_STARGAZERS_TABLE, for: $0) as! TableCellController
             cell.dataRequest?.cancel()
         }
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "id_cell_stargazers_table", for: indexPath) as! TableCellController
+        let cell = tableView.dequeueReusableCell(withIdentifier: ID_CELL_STARGAZERS_TABLE, for: indexPath) as! TableCellController
         let dataM = dataManager.stargazers[indexPath.row]
         cell.title.text = dataM.username
+        cell.picture.image = avatarPlaceholder
         fetchUserAvatar(cell, indexPath)
         return cell
     }
     
     override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        if !isLoading && indexPath.row == tableView.numberOfRows() - 1 {
+        if !isLoadingNewStargazers && indexPath.row == tableView.numberOfRows() - 1 {
             page = page + 1
-            isLoading = true
+            isLoadingNewStargazers = true
             dataManager.getStargazers(UserDefaults.standard.string(forKey: "owner") ?? "", UserDefaults.standard.string(forKey: "repository") ?? "", page)
         }
     }
@@ -80,7 +84,7 @@ class StargazersTableViewController: UITableViewController, UITableViewDataSourc
     //MARK:- DataManager
     
     func stargazersDataReady(stargazers: [User]) {
-        isLoading = false
+        isLoadingNewStargazers = false
         if page != 1 {
             delay(1.0) {
                 self.reloadTable()
@@ -91,9 +95,9 @@ class StargazersTableViewController: UITableViewController, UITableViewDataSourc
     }
     
     func stargazersDataNotAvailable(error: String) {
-        isLoading = false
+        isLoadingNewStargazers = false
         reloadTable()
-        simpleAlert(title: loc("ERROR"), text: loc(error)) { [self] _ in
+        simpleAlert(title: loc("alert_ERROR"), text: loc(error)) { [self] _ in
             openSearchViewController(self)
         }
     }
@@ -115,12 +119,12 @@ class StargazersTableViewController: UITableViewController, UITableViewDataSourc
     
     @objc private func refreshInfo() {
         page = 1
-        isLoading = true
+        isLoadingNewStargazers = true
         dataManager.getStargazers(UserDefaults.standard.string(forKey: "owner") ?? "", UserDefaults.standard.string(forKey: "repository") ?? "", page)
     }
     
     private func fetchUserAvatar(_ cell: TableCellController, _ indexPath: IndexPath){
-        if let url = URL(string: dataManager.stargazers[indexPath.row].avatarUrl), dataManager.stargazers[indexPath.row].avatar == UIImage(systemName: "person.crop.circle.fill")! {
+        if let url = URL(string: dataManager.stargazers[indexPath.row].avatarUrl), dataManager.stargazers[indexPath.row].avatar == avatarPlaceholder {
             cell.dataRequest = AFManager.request(url, method: .get).responseData { (response) in
                 if response.error == nil, let data = response.data, let img = UIImage(data: data) {
                     if response.request?.url?.absoluteString == cell.dataRequest?.request!.url?.absoluteString {
@@ -138,7 +142,7 @@ class StargazersTableViewController: UITableViewController, UITableViewDataSourc
     //MARK:- IBActions
     
     @IBAction func openSearchViewController(_ sender: Any) {
-        if let viewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "id_storyboard_search") as? SearchViewController {
+        if let viewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: ID_STORYBOARD_SEARCH) as? SearchViewController {
             viewController.modalPresentationStyle = .overFullScreen
             viewController.dataManager = dataManager
             present(viewController, animated: true, completion: nil)

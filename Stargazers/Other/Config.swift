@@ -15,13 +15,14 @@
 import UIKit
 import Alamofire
 
+
 //MARK: - Shared variables
 
 public var AFManager = Session()
+public let avatarPlaceholder = UIImage(systemName: "person.crop.circle.fill")!
 
 
 //MARK: - Shared functions
-
 
 /// Exceute actions after specified time (in seconds)
 /// - Parameters:
@@ -37,6 +38,15 @@ func loc(_ localizedKey:String) -> String {
     return NSLocalizedString(localizedKey, comment: "")
 }
 
+///Save the app user preferences
+/// - Parameters:
+///   - any: value
+///   - key: key
+func savePreferenceLocal(_ any: Any, _ key: String) {
+    UserDefaults.standard.set(any, forKey: key)
+    UserDefaults.standard.synchronize()
+}
+
 /// Function that set the Alamofire configuration
 /// - Parameter timeOut: time interval that indicate the time out for every call to the web service made with alamofire
 func setAlamofire(_ timeOut: TimeInterval = 15.0){
@@ -47,24 +57,8 @@ func setAlamofire(_ timeOut: TimeInterval = 15.0){
     AFManager = Alamofire.Session(configuration: configuration)
 }
 
-///Save the app user preferences
-/// - Parameters:
-///   - any: value
-///   - key: key
-func savePreferenceLocal(_ any: Any, _ key: String) {
-    UserDefaults.standard.set(any, forKey: key)
-    UserDefaults.standard.synchronize()
-}
-
-/// Parse string for HTML call
-/// - Parameter text: text to parse
-func replaceHtmlCharset(_ text: String) -> String {
-    return text.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed) ?? text
-}
-
 
 //MARK: - Shared extension
-
 
 #if os(iOS)
 extension UIViewController {
@@ -74,8 +68,8 @@ extension UIViewController {
         simpleAlert.addAction(UIAlertAction(title: loc("alert_OKBUTTON"), style: .cancel, handler: handler))
         self.present(simpleAlert, animated: true, completion: nil)
     }
+    
 }
-
 
 extension UINavigationItem {
     
