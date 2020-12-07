@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Alamofire
 
 class TableCellController: UITableViewCell {
 
@@ -14,4 +15,5 @@ class TableCellController: UITableViewCell {
     @IBOutlet var detail: UILabel!
     @IBOutlet var picture: UIImageView!
     
+    var dataRequest : DataRequest?
 }

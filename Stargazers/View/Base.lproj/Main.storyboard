@@ -4,35 +4,51 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17505"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Stargazers List Controller-->
+        <!--Stargazers Table View Controller-->
         <scene sceneID="x3I-mw-y7B">
             <objects>
-                <tableViewController id="jwR-MA-YaT" customClass="StargazersListController" customModule="Stargazers" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController id="jwR-MA-YaT" customClass="StargazersTableViewController" customModule="Stargazers" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" dataMode="prototypes" style="insetGrouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" id="R2I-Nw-MSA">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <inset key="separatorInset" minX="59" minY="0.0" maxX="0.0" maxY="0.0"/>
+                        <activityIndicatorView key="tableFooterView" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="medium" id="zF8-tI-9Ed">
+                            <rect key="frame" x="0.0" y="128.5" width="414" height="44"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        </activityIndicatorView>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="id_cell_stargazers_table" rowHeight="55" id="c9X-Ie-4t3" customClass="TableCellController" customModule="Stargazers" customModuleProvider="target">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="id_cell_stargazers_table" rowHeight="55" id="c9X-Ie-4t3" customClass="TableCellController" customModule="Stargazers" customModuleProvider="target">
                                 <rect key="frame" x="20" y="55.5" width="374" height="55"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="c9X-Ie-4t3" id="ADL-1i-LX2">
                                     <rect key="frame" x="0.0" y="0.0" width="374" height="55"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="person.crop.circle.fill" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="AHf-nd-wx5">
-                                            <rect key="frame" x="2" y="2.5" width="51" height="50"/>
+                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="person.crop.circle.fill" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="AHf-nd-wx5">
+                                            <rect key="frame" x="4" y="4.5" width="47" height="46"/>
                                             <constraints>
-                                                <constraint firstAttribute="width" secondItem="AHf-nd-wx5" secondAttribute="height" multiplier="55:55" id="lCM-AJ-2oK"/>
+                                                <constraint firstAttribute="width" secondItem="AHf-nd-wx5" secondAttribute="height" multiplier="47:47" id="Kgw-7g-4er"/>
                                             </constraints>
+                                            <userDefinedRuntimeAttributes>
+                                                <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
+                                                    <color key="value" name="AccentColor"/>
+                                                </userDefinedRuntimeAttribute>
+                                                <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
+                                                    <real key="value" value="2"/>
+                                                </userDefinedRuntimeAttribute>
+                                                <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                                    <real key="value" value="23"/>
+                                                </userDefinedRuntimeAttribute>
+                                            </userDefinedRuntimeAttributes>
                                         </imageView>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Username" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pWS-pd-yTw">
-                                            <rect key="frame" x="61" y="8" width="305" height="39"/>
+                                            <rect key="frame" x="59" y="8" width="307" height="39"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="20" id="7a0-1r-ndc"/>
                                             </constraints>
@@ -42,13 +58,13 @@
                                         </label>
                                     </subviews>
                                     <constraints>
+                                        <constraint firstItem="pWS-pd-yTw" firstAttribute="leading" secondItem="AHf-nd-wx5" secondAttribute="trailing" constant="8" id="4uM-Yz-SoI"/>
+                                        <constraint firstAttribute="bottom" secondItem="AHf-nd-wx5" secondAttribute="bottom" constant="4" id="Ma3-4P-AXL"/>
+                                        <constraint firstItem="AHf-nd-wx5" firstAttribute="top" secondItem="ADL-1i-LX2" secondAttribute="top" constant="4" id="Sg6-Qv-wCr"/>
                                         <constraint firstItem="pWS-pd-yTw" firstAttribute="top" secondItem="ADL-1i-LX2" secondAttribute="top" constant="8" id="URd-A3-TQh"/>
                                         <constraint firstAttribute="trailing" secondItem="pWS-pd-yTw" secondAttribute="trailing" constant="8" id="YBQ-ZV-Zh1"/>
                                         <constraint firstAttribute="bottom" secondItem="pWS-pd-yTw" secondAttribute="bottom" constant="8" id="auJ-Y9-QGz"/>
-                                        <constraint firstAttribute="bottom" secondItem="AHf-nd-wx5" secondAttribute="bottom" constant="2" id="epb-ee-1g7"/>
-                                        <constraint firstItem="AHf-nd-wx5" firstAttribute="leading" secondItem="ADL-1i-LX2" secondAttribute="leading" constant="2" id="fSL-8C-yjn"/>
-                                        <constraint firstItem="AHf-nd-wx5" firstAttribute="top" secondItem="ADL-1i-LX2" secondAttribute="top" constant="2" id="h20-Ql-01S"/>
-                                        <constraint firstItem="pWS-pd-yTw" firstAttribute="leading" secondItem="AHf-nd-wx5" secondAttribute="trailing" constant="8" id="lb7-MS-epk"/>
+                                        <constraint firstItem="AHf-nd-wx5" firstAttribute="leading" secondItem="ADL-1i-LX2" secondAttribute="leading" constant="4" id="eqL-cj-pbx"/>
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>
@@ -65,7 +81,7 @@
                     <navigationItem key="navigationItem" id="pwK-0Y-RqU">
                         <barButtonItem key="leftBarButtonItem" title="Item" image="gear" catalog="system" id="cyf-Ey-XGC">
                             <connections>
-                                <segue destination="Q2f-co-1Lv" kind="presentation" id="kaO-Tt-Ycc"/>
+                                <action selector="openSearchViewController:" destination="jwR-MA-YaT" id="aeQ-PH-Y1q"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -77,7 +93,6 @@
         <!--Navigation Controller-->
         <scene sceneID="Cun-X8-7hU">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="DOG-U1-LyT" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="DXd-lA-6Ku" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="hbP-PS-BVq">
@@ -89,6 +104,7 @@
                         <segue destination="jwR-MA-YaT" kind="relationship" relationship="rootViewController" id="crx-OD-weq"/>
                     </connections>
                 </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="DOG-U1-LyT" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="279.71014492753625" y="-29.464285714285712"/>
         </scene>
@@ -97,16 +113,16 @@
             <objects>
                 <viewController storyboardIdentifier="id_storyboard_search" id="Q2f-co-1Lv" customClass="SearchViewController" customModule="Stargazers" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Maj-rX-vej">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Repository..." textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="NLL-uw-QWR">
-                                <rect key="frame" x="16" y="270" width="382" height="34"/>
+                                <rect key="frame" x="16" y="314" width="382" height="34"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocorrectionType="no" returnKeyType="search" enablesReturnKeyAutomatically="YES"/>
                             </textField>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Repository:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cQW-uP-R6t">
-                                <rect key="frame" x="16" y="246" width="382" height="20"/>
+                                <rect key="frame" x="16" y="290" width="382" height="20"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="20" id="hzU-6D-Lxb"/>
                                 </constraints>
@@ -115,13 +131,13 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="github header" translatesAutoresizingMaskIntoConstraints="NO" id="UnY-do-uGp">
-                                <rect key="frame" x="0.0" y="10" width="414" height="100"/>
+                                <rect key="frame" x="0.0" y="54" width="414" height="100"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="100" id="tOe-82-IqH"/>
                                 </constraints>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Owner:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Nej-lO-FxR">
-                                <rect key="frame" x="16" y="158" width="382" height="20"/>
+                                <rect key="frame" x="16" y="202" width="382" height="20"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="20" id="7vQ-b4-ChC"/>
                                 </constraints>
@@ -130,12 +146,12 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Owner..." textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="fci-9W-v4Z">
-                                <rect key="frame" x="16" y="182" width="382" height="34"/>
+                                <rect key="frame" x="16" y="226" width="382" height="34"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocorrectionType="no" returnKeyType="next"/>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ndg-65-iHA">
-                                <rect key="frame" x="16" y="354" width="382" height="50"/>
+                                <rect key="frame" x="16" y="398" width="382" height="50"/>
                                 <color key="backgroundColor" red="0.99607843139999996" green="0.57254901960000004" blue="0.14901960780000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="YT2-u7-fzc"/>
@@ -187,13 +203,16 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="w1H-9n-3B3" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1190" y="717"/>
+            <point key="canvasLocation" x="280" y="-773"/>
         </scene>
     </scenes>
     <resources>
         <image name="gear" catalog="system" width="128" height="119"/>
         <image name="github header" width="2000" height="665"/>
         <image name="person.crop.circle.fill" catalog="system" width="128" height="121"/>
+        <namedColor name="AccentColor">
+            <color red="0.99599999189376831" green="0.57300001382827759" blue="0.14900000393390656" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

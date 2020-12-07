@@ -68,12 +68,17 @@ class SearchViewController: UIViewController, UITextFieldDelegate {
     
     @IBAction func searchStargazers(_ sender: Any){
         guard let usr = owner.text, let repo = repository.text, let dm = dataManager else { return }
-        searchButton.isHidden = true
-        searchButton.isUserInteractionEnabled = false
-        savePreferenceLocal(usr, "owner")
-        savePreferenceLocal(repo, "repository")
-        dm.getStargazers(usr, repo)
-        dismiss(animated: true, completion: nil)
+        if usr.isEmpty || repo.isEmpty {
+            simpleAlert(text: loc("Invalid input"))
+            return
+        }
+        dismiss(animated: true) {
+            self.searchButton.isHidden = true
+            self.searchButton.isUserInteractionEnabled = false
+            savePreferenceLocal(usr, "owner")
+            savePreferenceLocal(repo, "repository")
+            dm.getStargazers(usr, repo, 1)
+        }
     }
     
 }

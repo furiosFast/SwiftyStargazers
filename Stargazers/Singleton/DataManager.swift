@@ -26,7 +26,11 @@ class DataManager: NSObject {
     var stargazers: [User] = []
     
     
-    func getStargazers(_ owner: String, _ repositoryName: String){
+    func getStargazers(_ owner: String, _ repositoryName: String, _ page: Int){
+        if page == 1 {
+            self.stargazers.removeAll()
+        }
+        
         if owner.isEmpty {
             self.delegate?.stargazersDataNotAvailable?(error: "owner is empty")
             return
@@ -36,8 +40,11 @@ class DataManager: NSObject {
             return
         }
         
-        let urlString = "https://api.github.com/repos/\(owner)/\(repositoryName)/stargazers"
-        guard let url = URL(string: urlString) else { return }
+        let urlString = "https://api.github.com/repos/\(replaceHtmlCharset(owner))/\(replaceHtmlCharset(repositoryName))/stargazers?page=\(page)"
+        guard let url = URL(string: urlString) else {
+            self.delegate?.stargazersDataNotAvailable?(error: "Invalid input")
+            return
+        }
         AFManager.request(url, method: .get).responseJSON { response in
             if let er = response.error {
                 self.delegate?.stargazersDataNotAvailable?(error: er.localizedDescription)
@@ -49,9 +56,6 @@ class DataManager: NSObject {
             }
             
             let json = JSON(ilJson)
-            if !json.isEmpty {
-                self.stargazers.removeAll()
-            }
             for i in 0..<json.count {
                 //0 - username
                 let username = json[i]["login"].stringValue
@@ -60,11 +64,15 @@ class DataManager: NSObject {
                 let avatarUrl = json[i]["avatar_url"].stringValue
                 
                 
-                self.stargazers.append(User(username, UIImage(systemName: "person.crop.circle.fill")!, avatarUrl))
+                if !username.isEmpty && !avatarUrl.isEmpty {
+                    self.stargazers.append(User(username, UIImage(systemName: "person.crop.circle.fill")!, avatarUrl))
+                }
             }
             
             
-            DispatchQueue.main.async {
+            if self.stargazers.isEmpty {
+                self.delegate?.stargazersDataNotAvailable?(error: "No result found.")
+            } else {
                 self.delegate?.stargazersDataReady(stargazers: self.stargazers)
             }
         }

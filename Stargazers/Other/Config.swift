@@ -56,6 +56,12 @@ func savePreferenceLocal(_ any: Any, _ key: String) {
     UserDefaults.standard.synchronize()
 }
 
+/// Parse string for HTML call
+/// - Parameter text: text to parse
+func replaceHtmlCharset(_ text: String) -> String {
+    return text.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed) ?? text
+}
+
 
 //MARK: - Shared extension
 
