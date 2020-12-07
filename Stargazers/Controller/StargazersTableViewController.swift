@@ -30,7 +30,6 @@ class StargazersTableViewController: UITableViewController, UITableViewDataSourc
         tableView.prefetchDataSource = self
         dataManager.delegate = self
         
-        addPullToRefresh()
         openSearchViewController(self)
     }
     
@@ -97,7 +96,7 @@ class StargazersTableViewController: UITableViewController, UITableViewDataSourc
     func stargazersDataNotAvailable(error: String) {
         isLoadingNewStargazers = false
         reloadTable()
-        simpleAlert(title: loc("alert_ERROR"), text: loc(error)) { [self] _ in
+        simpleAlert(title: loc("alert_WARNING"), text: loc(error)) { [self] _ in
             openSearchViewController(self)
         }
     }
@@ -105,16 +104,9 @@ class StargazersTableViewController: UITableViewController, UITableViewDataSourc
     
     //MARK:- Private functions
     
-    private func addPullToRefresh(){
-        let refreshControl = UIRefreshControl()
-        refreshControl.addTarget(self, action:  #selector(refreshInfo), for: .valueChanged)
-        tableView.refreshControl = refreshControl
-    }
-    
     private func reloadTable(){
         navigationItem.setTitle(UserDefaults.standard.string(forKey: "owner")!, subtitle: UserDefaults.standard.string(forKey: "repository")!)
         tableView.reloadData()
-        refreshControl?.endRefreshing()
     }
     
     @objc private func refreshInfo() {

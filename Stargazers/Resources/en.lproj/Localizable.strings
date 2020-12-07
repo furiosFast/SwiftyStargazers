@@ -33,6 +33,7 @@
 /******************************/
 
 "alert_ERROR" = "Error";
+"alert_WARNING" = "Warning";
 "alert_OKBUTTON" = "OK";
 
 
