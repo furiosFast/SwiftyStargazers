@@ -64,7 +64,7 @@ class DataManager: NSObject {
                 
                 
                 if !username.isEmpty && !avatarUrl.isEmpty {
-                    self.stargazers.append(User(username, avatarPlaceholder, avatarUrl))
+                    self.stargazers.append(User(username, avatarUrl))
                 }
             }
             

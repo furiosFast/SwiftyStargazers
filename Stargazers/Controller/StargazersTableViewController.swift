@@ -15,10 +15,9 @@
 import UIKit
 import SwifterSwift
 
-class StargazersTableViewController: UITableViewController, UITableViewDataSourcePrefetching, DataManagerDelegate {
+class StargazersTableViewController: UITableViewController, DataManagerDelegate {
     
     let ID_CELL_STARGAZERS_TABLE = "id_cell_stargazers_table"
-    let ID_STORYBOARD_SEARCH = "id_storyboard_search"
     
     let dataManager = DataManager()
     var isLoadingNewStargazers = true
@@ -27,7 +26,6 @@ class StargazersTableViewController: UITableViewController, UITableViewDataSourc
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        tableView.prefetchDataSource = self
         dataManager.delegate = self
         
         openSearchViewController(self)
@@ -48,26 +46,18 @@ class StargazersTableViewController: UITableViewController, UITableViewDataSourc
         return dataManager.stargazers.count
     }
     
-    func tableView(_ tableView: UITableView, prefetchRowsAt indexPaths: [IndexPath]) {
-        indexPaths.forEach {
-            let cell = tableView.dequeueReusableCell(withIdentifier: ID_CELL_STARGAZERS_TABLE, for: $0) as! TableCellController
-            fetchUserAvatar(cell, $0)
-        }
-    }
-    
-    func tableView(_ tableView: UITableView, cancelPrefetchingForRowsAt indexPaths: [IndexPath]) {
-        indexPaths.forEach {
-            let cell = tableView.dequeueReusableCell(withIdentifier: ID_CELL_STARGAZERS_TABLE, for: $0) as! TableCellController
-            cell.dataRequest?.cancel()
-        }
-    }
-    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: ID_CELL_STARGAZERS_TABLE, for: indexPath) as! TableCellController
-        let dataM = dataManager.stargazers[indexPath.row]
-        cell.title.text = dataM.username
-        cell.picture.image = avatarPlaceholder
-        fetchUserAvatar(cell, indexPath)
+        cell.title.text = dataManager.stargazers[indexPath.row].username
+        if dataManager.stargazers[indexPath.row].avatar == nil {
+            if let url = URL(string: dataManager.stargazers[indexPath.row].avatarUrl) {
+                cell.picture.download(from: url, contentMode: .scaleAspectFill, placeholder: avatarPlaceholder) { (image) in
+                    self.dataManager.stargazers[indexPath.row].avatar = image
+                }
+            }
+        } else {
+            cell.picture.image = dataManager.stargazers[indexPath.row].avatar
+        }
         return cell
     }
     
@@ -84,13 +74,7 @@ class StargazersTableViewController: UITableViewController, UITableViewDataSourc
     
     func stargazersDataReady(stargazers: [User]) {
         isLoadingNewStargazers = false
-        if page != 1 {
-            delay(1.0) {
-                self.reloadTable()
-            }
-        } else {
-            reloadTable()
-        }
+        reloadTable()
     }
     
     func stargazersDataNotAvailable(error: String) {
@@ -113,21 +97,6 @@ class StargazersTableViewController: UITableViewController, UITableViewDataSourc
         page = 1
         isLoadingNewStargazers = true
         dataManager.getStargazers(UserDefaults.standard.string(forKey: "owner") ?? "", UserDefaults.standard.string(forKey: "repository") ?? "", page)
-    }
-    
-    private func fetchUserAvatar(_ cell: TableCellController, _ indexPath: IndexPath){
-        if let url = URL(string: dataManager.stargazers[indexPath.row].avatarUrl), dataManager.stargazers[indexPath.row].avatar == avatarPlaceholder {
-            cell.dataRequest = AFManager.request(url, method: .get).responseData { (response) in
-                if response.error == nil, let data = response.data, let img = UIImage(data: data) {
-                    if response.request?.url?.absoluteString == cell.dataRequest?.request!.url?.absoluteString {
-                        cell.picture.image = img
-                        self.dataManager.stargazers[indexPath.row].avatar = img
-                    }
-                }
-            }
-        } else {
-            cell.picture.image = dataManager.stargazers[indexPath.row].avatar
-        }
     }
     
     

@@ -20,6 +20,7 @@ import Alamofire
 
 public var AFManager = Session()
 public let avatarPlaceholder = UIImage(systemName: "person.crop.circle.fill")!
+public let ID_STORYBOARD_SEARCH = "id_storyboard_search"
 
 
 //MARK: - Shared functions

@@ -12,8 +12,6 @@ import Alamofire
 class TableCellController: UITableViewCell {
 
     @IBOutlet var title: UILabel!
-    @IBOutlet var detail: UILabel!
     @IBOutlet var picture: UIImageView!
     
-    var dataRequest : DataRequest?
 }

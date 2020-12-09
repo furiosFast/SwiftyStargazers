@@ -61,7 +61,8 @@ class SearchViewController: UIViewController, UITextFieldDelegate {
         ownerTitle.text = loc("owner")
         repositoryTitle.text = loc("repo")
         owner.placeholder = loc("owner") + "..."
-        repository.placeholder = loc("repository") + "..."
+        repository.placeholder = loc("repo") + "..."
+        searchButton.titleForNormal = loc("search")
     }
     
     

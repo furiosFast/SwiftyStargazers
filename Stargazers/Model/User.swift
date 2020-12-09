@@ -17,11 +17,17 @@ import UIKit
 class User: NSObject, NSCoding {
     
     var username : String
-    var avatar : UIImage
+    var avatar : UIImage?
     var avatarUrl : String
 
     
-    init(_ username: String, _ avatar: UIImage, _ avatarUrl: String) {
+    init(_ username: String, _ avatarUrl: String) {
+        self.username = username
+        self.avatar = nil
+        self.avatarUrl = avatarUrl
+    }
+
+    init(_ username: String, _ avatar: UIImage?, _ avatarUrl: String) {
         self.username = username
         self.avatar = avatar
         self.avatarUrl = avatarUrl
@@ -29,7 +35,7 @@ class User: NSObject, NSCoding {
         
     internal required init?(coder aDecoder: NSCoder) {
         self.username = aDecoder.decodeObject(forKey: "username") as! String
-        self.avatar = aDecoder.decodeObject(forKey: "avatar") as! UIImage
+        self.avatar = aDecoder.decodeObject(forKey: "avatar") as? UIImage
         self.avatarUrl = aDecoder.decodeObject(forKey: "avatarUrl") as! String
     }
 
