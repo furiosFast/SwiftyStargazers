@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		4C8E66D6257D96840001519E /* SwifterSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 4C8E66D5257D96840001519E /* SwifterSwift */; };
+		4C8E66E725804EA30001519E /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 4C8E66E625804EA30001519E /* Kingfisher */; };
 		4CF4BB8D25782F0600999CF9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CF4BB8C25782F0600999CF9 /* AppDelegate.swift */; };
 		4CF4BB8F25782F0600999CF9 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CF4BB8E25782F0600999CF9 /* SceneDelegate.swift */; };
 		4CF4BB9125782F0600999CF9 /* StargazersTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CF4BB9025782F0600999CF9 /* StargazersTableViewController.swift */; };
@@ -47,7 +47,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4C8E66D6257D96840001519E /* SwifterSwift in Frameworks */,
+				4C8E66E725804EA30001519E /* Kingfisher in Frameworks */,
 				4CF4BBCF2578303000999CF9 /* SwiftyJSON in Frameworks */,
 				4CF4BBC92578301A00999CF9 /* Alamofire in Frameworks */,
 			);
@@ -168,7 +168,7 @@
 			packageProductDependencies = (
 				4CF4BBC82578301A00999CF9 /* Alamofire */,
 				4CF4BBCE2578303000999CF9 /* SwiftyJSON */,
-				4C8E66D5257D96840001519E /* SwifterSwift */,
+				4C8E66E625804EA30001519E /* Kingfisher */,
 			);
 			productName = Stargazers;
 			productReference = 4CF4BB8925782F0600999CF9 /* Stargazers.app */;
@@ -201,7 +201,7 @@
 			packageReferences = (
 				4CF4BBC72578301A00999CF9 /* XCRemoteSwiftPackageReference "Alamofire" */,
 				4CF4BBCD2578303000999CF9 /* XCRemoteSwiftPackageReference "SwiftyJSON" */,
-				4C8E66D4257D96840001519E /* XCRemoteSwiftPackageReference "SwifterSwift" */,
+				4C8E66E525804EA30001519E /* XCRemoteSwiftPackageReference "Kingfisher" */,
 			);
 			productRefGroup = 4CF4BB8A25782F0600999CF9 /* Products */;
 			projectDirPath = "";
@@ -475,12 +475,12 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		4C8E66D4257D96840001519E /* XCRemoteSwiftPackageReference "SwifterSwift" */ = {
+		4C8E66E525804EA30001519E /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
 			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/SwifterSwift/SwifterSwift.git";
+			repositoryURL = "https://github.com/onevcat/Kingfisher.git";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 5.2.0;
+				minimumVersion = 5.15.8;
 			};
 		};
 		4CF4BBC72578301A00999CF9 /* XCRemoteSwiftPackageReference "Alamofire" */ = {
@@ -502,10 +502,10 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		4C8E66D5257D96840001519E /* SwifterSwift */ = {
+		4C8E66E625804EA30001519E /* Kingfisher */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 4C8E66D4257D96840001519E /* XCRemoteSwiftPackageReference "SwifterSwift" */;
-			productName = SwifterSwift;
+			package = 4C8E66E525804EA30001519E /* XCRemoteSwiftPackageReference "Kingfisher" */;
+			productName = Kingfisher;
 		};
 		4CF4BBC82578301A00999CF9 /* Alamofire */ = {
 			isa = XCSwiftPackageProductDependency;

@@ -13,7 +13,7 @@
 
 
 import UIKit
-import SwifterSwift
+import Kingfisher
 
 class StargazersTableViewController: UITableViewController, DataManagerDelegate {
     
@@ -49,20 +49,17 @@ class StargazersTableViewController: UITableViewController, DataManagerDelegate 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: ID_CELL_STARGAZERS_TABLE, for: indexPath) as! TableCellController
         cell.title.text = dataManager.stargazers[indexPath.row].username
-        if dataManager.stargazers[indexPath.row].avatar == nil {
-            if let url = URL(string: dataManager.stargazers[indexPath.row].avatarUrl) {
-                cell.picture.download(from: url, contentMode: .scaleAspectFill, placeholder: avatarPlaceholder) { (image) in
-                    self.dataManager.stargazers[indexPath.row].avatar = image
-                }
-            }
-        } else {
-            cell.picture.image = dataManager.stargazers[indexPath.row].avatar
+        cell.picture.layer.borderWidth = 2
+        cell.picture.layer.borderColor = UIColor(named: "AccentColor")?.cgColor
+        cell.picture.layer.cornerRadius = cell.picture.bounds.width / 2
+        if let url = URL(string: dataManager.stargazers[indexPath.row].avatarUrl) {
+            cell.picture.kf.setImage(with: url, placeholder: avatarPlaceholder)
         }
         return cell
     }
     
     override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        if !isLoadingNewStargazers && indexPath.row == tableView.numberOfRows() - 1 {
+        if !isLoadingNewStargazers && indexPath.row == tableView.numberOfRows(inSection: 0) - 1 {
             page = page + 1
             isLoadingNewStargazers = true
             dataManager.getStargazers(UserDefaults.standard.string(forKey: "owner") ?? "", UserDefaults.standard.string(forKey: "repository") ?? "", page)
@@ -74,7 +71,9 @@ class StargazersTableViewController: UITableViewController, DataManagerDelegate 
     
     func stargazersDataReady(stargazers: [User]) {
         isLoadingNewStargazers = false
-        reloadTable()
+        delay(0.5) {
+            self.reloadTable()
+        }
     }
     
     func stargazersDataNotAvailable(error: String) {
@@ -92,13 +91,7 @@ class StargazersTableViewController: UITableViewController, DataManagerDelegate 
         navigationItem.setTitle(UserDefaults.standard.string(forKey: "owner")!, subtitle: UserDefaults.standard.string(forKey: "repository")!)
         tableView.reloadData()
     }
-    
-    @objc private func refreshInfo() {
-        page = 1
-        isLoadingNewStargazers = true
-        dataManager.getStargazers(UserDefaults.standard.string(forKey: "owner") ?? "", UserDefaults.standard.string(forKey: "repository") ?? "", page)
-    }
-    
+
     
     //MARK:- IBActions
     

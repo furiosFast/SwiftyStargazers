@@ -13,6 +13,7 @@
 
 
 import UIKit
+
 class SearchViewController: UIViewController, UITextFieldDelegate {
     
     @IBOutlet var ownerTitle: UILabel!
@@ -62,7 +63,7 @@ class SearchViewController: UIViewController, UITextFieldDelegate {
         repositoryTitle.text = loc("repo")
         owner.placeholder = loc("owner") + "..."
         repository.placeholder = loc("repo") + "..."
-        searchButton.titleForNormal = loc("search")
+        searchButton.setTitle(loc("search"), for: .normal)
     }
     
     
